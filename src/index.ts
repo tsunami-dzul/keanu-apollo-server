@@ -1,11 +1,11 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { typeDefs } from './schemas/schema.js';
-import { resolvers } from './resolvers/resolver.js';
+import { keanuSchema } from './schemas/keanuSchema';
+import { keanuResolver } from './resolvers/keanuResolver';
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  typeDefs: keanuSchema,
+  resolvers: keanuResolver,
 });
 
 const { url } = await startStandaloneServer(server, {

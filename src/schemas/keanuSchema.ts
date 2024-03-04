@@ -1,4 +1,4 @@
-export const typeDefs = `#graphql
+export const keanuSchema = `#graphql
     type Keanu {
         image: String
     }

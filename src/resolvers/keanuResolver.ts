@@ -1,7 +1,7 @@
-import { config } from '../config/config.js';
-import { QueryArgs } from '../interfaces/IQueryArgs.js';
+import { config } from '../config/config';
+import { QueryArgs } from '../interfaces/IQueryArgs';
 
-export const resolvers = {
+export const keanuResolver = {
   Query: {
     async keanu(_: any, args: QueryArgs) {
       const width = args.width;

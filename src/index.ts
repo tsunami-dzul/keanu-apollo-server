@@ -1,50 +1,18 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { config } from './config';
-
-interface QueryArgs {
-  width: String;
-  height: String;
-  young?: String;
-  gray?: String;
-}
-
-const resolvers = {
-  Query: {
-    async keanu(_: any, args: QueryArgs) {
-      const width = args.width;
-      const height = args.height;
-      const young = args.young ? args.young : '';
-      const gray = args.gray ? args.gray : '';
-
-      const response = await fetch(`${config.endPoint}${width}/${height}${young}${gray}`);
-      const data = await response.text();
-
-      return {
-        id: 1,
-        image: data,
-      };
-    },
-  },
-};
-
-const typeDefs = `#graphql
-    type Keanu {
-        id: ID
-        image: String
-    }
-    type Query {
-        keanu(width: String!, height:String!, young: String, gray: String): Keanu
-    }
-`;
+import { InMemoryLRUCache } from '@apollo/utils.keyvaluecache';
+import { keanuSchema } from './schemas/keanuSchema';
+import { keanuResolver } from './resolvers/keanuResolver';
+import { config } from './config/config';
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+  cache: new InMemoryLRUCache(),
+  typeDefs: keanuSchema,
+  resolvers: keanuResolver,
 });
 
 const { url } = await startStandaloneServer(server, {
-  listen: { port: 4000 },
+  listen: { port: config.port },
 });
 
 console.log(`🚀  Server ready at: ${url}`);
